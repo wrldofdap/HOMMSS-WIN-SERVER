@@ -1,0 +1,262 @@
+body {
+    zoom: 90% !important;
+}
+
+#logo_header_mobile {
+    max-width: 190px;
+}
+
+.wg-table.table-all-user>* {
+    min-width: 1260px;
+}
+
+.wgp-pagination svg {
+    height: 20px;
+}
+
+.wgp-pagination p {
+    font-size: 16px;
+}
+
+.pagination {
+    margin-left: 30px;
+
+    .page-link {
+        padding: 1.1rem;
+        font-size: 16px;
+    }
+}
+
+.swal-button--confirm {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.swal-button--confirm.active,
+.swal-button--confirm:active,
+.show>.swal-button--confirm.dropdown-toggle,
+.swal-button--confirm:hover {
+    background-color: #b02a37 !important;
+    border-color: #a52834 !important;
+    color: #fff;
+}
+
+.swal-footer {
+    text-align: center;
+}
+
+.table-bordered>:not(caption)>*>* {
+    border-width: inherit;
+    line-height: 32px;
+    font-size: 14px;
+    border: 1px solid #e1e1e1;
+    vertical-align: middle;
+}
+
+.table-striped .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-striped {
+    min-width: 1200px;
+}
+
+.table-striped th:nth-child(2),
+.table-striped td:nth-child(2) {
+    width: 250px;
+    padding-bottom: 18px;
+}
+
+.pname {
+    display: flex;
+    gap: 13px;
+}
+
+.view-icon {
+    width: 20px;
+    margin: 0 auto;
+}
+.wg-table.table-all-user>* {
+    min-width: 1260px;
+}
+
+/*------*/
+.wgp-pagination svg {
+    height: 20px;
+}
+
+.wgp-pagination p {
+    font-size: 16px;
+}
+
+.pagination {
+    margin-left: 30px;
+
+    .page-link {
+        padding: 1.1rem;
+        font-size: 16px;
+    }
+}
+
+.swal-button--confirm {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.swal-button--confirm.active,
+.swal-button--confirm:active,
+.show>.swal-button--confirm.dropdown-toggle,
+.swal-button--confirm:hover {
+    background-color: #b02a37 !important;
+    border-color: #a52834 !important;
+    color: #fff;
+}
+
+.swal-footer {
+    text-align: center;
+}
+
+.table-bordered>:not(caption)>*>* {
+    border-width: inherit;
+    line-height: 32px;
+    font-size: 14px;
+    border: 1px solid #e1e1e1;
+    vertical-align: middle;
+}
+
+.table-striped .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-striped {
+    min-width: 1200px;
+}
+
+.table-striped th:nth-child(2),
+.table-striped td:nth-child(2) {
+    width: 250px;
+    padding-bottom: 18px;
+}
+
+.pname {
+    display: flex;
+    gap: 13px;
+}
+
+.view-icon {
+    width: 20px;
+    margin: 0 auto;
+}
+
+/* Normal scrollbar styling for orders table */
+.wg-table.table-orders,
+.table-container {
+    overflow-x: auto;
+}
+
+.wg-table.table-orders::-webkit-scrollbar,
+.table-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+.wg-table.table-orders::-webkit-scrollbar-track,
+.table-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+}
+
+.wg-table.table-orders::-webkit-scrollbar-thumb,
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+    border: 2px solid #f1f1f1;
+}
+
+.wg-table.table-orders::-webkit-scrollbar-thumb:hover,
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Override any existing scrollbar hiding */
+.overflow-h::-webkit-scrollbar,
+.wg-table::-webkit-scrollbar {
+    width: 12px !important;
+    height: 12px !important;
+    display: block !important;
+}
+
+/* Add this to override any Discord-inspired scrollbar styles for user pages */
+body.user-dashboard .table-responsive::-webkit-scrollbar,
+body.user-dashboard .wg-table::-webkit-scrollbar,
+body.user-dashboard .orders-table-wrapper::-webkit-scrollbar {
+    width: 12px !important;
+    height: 12px !important;
+    display: block !important;
+}
+
+body.user-dashboard .table-responsive::-webkit-scrollbar-track,
+body.user-dashboard .wg-table::-webkit-scrollbar-track,
+body.user-dashboard .orders-table-wrapper::-webkit-scrollbar-track {
+    background-color: #f1f1f1 !important;
+    border-radius: 6px !important;
+}
+
+body.user-dashboard .table-responsive::-webkit-scrollbar-thumb,
+body.user-dashboard .wg-table::-webkit-scrollbar-thumb,
+body.user-dashboard .orders-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #888 !important;
+    border-radius: 6px !important;
+    border: 2px solid #f1f1f1 !important;
+}
+
+body.user-dashboard .table-responsive::-webkit-scrollbar-thumb:hover,
+body.user-dashboard .wg-table::-webkit-scrollbar-thumb:hover,
+body.user-dashboard .orders-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #555 !important;
+}
+
+/* Loading indicator styles */
+.search-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.search-loading svg {
+    animation: spin 1.5s linear infinite;
+    color: #2275fc;
+    margin-bottom: 10px;
+}
+
+.search-loading p {
+    font-size: 14px;
+    color: #858B93;
+    margin: 0;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
