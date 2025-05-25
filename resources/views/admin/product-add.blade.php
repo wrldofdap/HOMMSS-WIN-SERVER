@@ -131,20 +131,11 @@
                     </fieldset>
                     @error('images')<span class="alert alert-danger text-center">{{$message}}@enderror
 
-                        <div class="cols gap22">
-                            <fieldset class="name">
-                                <div class="body-title mb-10">Regular Price <span class="tf-color-1">*</span></div>
-                                <input class="mb-10" type="text" placeholder="Enter regular price" name="regular_price" tabindex="0" value="{{old('regular_price')}}" aria-required="true" required="">
-                            </fieldset>
-                            @error('regular_price')<span class="alert alert-danger text-center">{{$message}}@enderror
-
-                                <fieldset class="name">
-                                    <div class="body-title mb-10">Sale Price <span class="tf-color-1">*</span></div>
-                                    <input class="mb-10" type="text" placeholder="Enter sale price" name="sale_price" tabindex="0" value="{{old('sale_price')}}" aria-required="true"
-                                        required="">
-                                </fieldset>
-                                @error('sale_price')<span class="alert alert-danger text-center">{{$message}}@enderror
-                        </div>
+                        <fieldset class="name">
+                            <div class="body-title mb-10">Price <span class="tf-color-1">*</span></div>
+                            <input class="mb-10" type="text" placeholder="Enter price" name="regular_price" tabindex="0" value="{{old('regular_price')}}" aria-required="true" required="">
+                        </fieldset>
+                        @error('regular_price')<span class="alert alert-danger text-center">{{$message}}@enderror
 
 
                         <div class="cols gap22">

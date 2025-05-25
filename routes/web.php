@@ -104,6 +104,12 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/user/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.user.edit');
     Route::put('/admin/user/update', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.user.update');
     Route::get('/admin/user/{id}/orders', [\App\Http\Controllers\Admin\UserController::class, 'orders'])->name('admin.user.orders');
+
+    // Notification routes
+    Route::get('/admin/notifications', [\App\Http\Controllers\NotificationController::class, 'getNotifications'])->name('notifications.get');
+    Route::post('/admin/notifications/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+    Route::post('/admin/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::get('/admin/notifications/count', [\App\Http\Controllers\NotificationController::class, 'getUnreadCount'])->name('notifications.count');
 });
 
 // Add these routes for settings
@@ -167,6 +173,11 @@ Route::get('/privacy-policy', function () {
 Route::get('/refund-policy', function () {
     return view('legal.refund');
 })->name('refund');
+
+// About and Contact pages
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact', [HomeController::class, 'contactSubmit'])->name('contact.submit');
 
 
 

@@ -149,11 +149,7 @@
         </div>
         <div class="product-single__price">
           <span class="current-price">
-            @if($product->sale_price)
-            <s>{{$product->regular_price}} </s> ₱{{$product->sale_price}}
-            @else
             ₱{{$product->regular_price}}
-            @endif
           </span>
         </div>
         <div class="product-single__short-desc">
@@ -172,7 +168,7 @@
             </div><!-- .qty-control -->
             <input type="hidden" name="id" value="{{$product->id}}" />
             <input type="hidden" name="name" value="{{$product->name}}" />
-            <input type="hidden" name="price" value="{{$product->sale_price == '' ?  $product->regular_price : $product->sale_price}}" />
+            <input type="hidden" name="price" value="{{$product->regular_price}}" />
             <button type="submit" class="btn btn-primary btn-addtocart" data-aside="cartDrawer">Add to Cart</button>
           </div>
         </form>
@@ -194,7 +190,7 @@
             @csrf
             <input type="hidden" name="id" value="{{ $product->id }}" />
             <input type="hidden" name="name" value="{{ $product->name }}" />
-            <input type="hidden" name="price" value="{{ $product->sale_price ?: $product->regular_price }}" />
+            <input type="hidden" name="price" value="{{ $product->regular_price }}" />
             <input type="hidden" name="quantity" value="1" />
             <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist" onclick="document.getElementById('wishlist-form').submit();">
               <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,7 +205,7 @@
 
 
         <share-button class="share-button">
-          <button class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
+          <button class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center hommss-share-btn">
             <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
               <use href="#icon_sharing" />
             </svg>
@@ -240,6 +236,114 @@
         <script src="js/details-disclosure.html" defer="defer"></script>
         <script src="js/share.html" defer="defer"></script>
       </div>
+
+      <!-- Share Button Styling -->
+      <style>
+      /* HOMMSS Share Button - Black Design */
+      .hommss-share-btn {
+          color: #000 !important;
+          background: transparent !important;
+          border: none !important;
+          padding: 8px 12px !important;
+          font-size: 14px !important;
+          font-weight: 400 !important;
+          text-decoration: none !important;
+          transition: all 0.3s ease !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          outline: none !important;
+      }
+
+      .hommss-share-btn:hover {
+          color: #333 !important;
+          background: #f8f9fa !important;
+          text-decoration: none !important;
+          transform: none !important;
+          box-shadow: none !important;
+      }
+
+      .hommss-share-btn:focus {
+          color: #000 !important;
+          background: transparent !important;
+          outline: none !important;
+          box-shadow: none !important;
+      }
+
+      .hommss-share-btn:active {
+          color: #000 !important;
+          background: #e9ecef !important;
+          transform: none !important;
+          box-shadow: none !important;
+      }
+
+      /* Share button icon styling */
+      .hommss-share-btn svg {
+          fill: #000 !important;
+          stroke: #000 !important;
+          width: 16px !important;
+          height: 16px !important;
+          margin-right: 6px !important;
+      }
+
+      .hommss-share-btn:hover svg {
+          fill: #333 !important;
+          stroke: #333 !important;
+      }
+
+      /* Share button text styling */
+      .hommss-share-btn span {
+          color: #000 !important;
+          font-size: 14px !important;
+          font-weight: 400 !important;
+          text-decoration: none !important;
+      }
+
+      .hommss-share-btn:hover span {
+          color: #333 !important;
+          text-decoration: none !important;
+      }
+
+      /* Remove any menu-link styling that might cause highlighting */
+      .share-button .menu-link,
+      .share-button .menu-link_us-s {
+          background: transparent !important;
+          color: #000 !important;
+          text-decoration: none !important;
+          border: none !important;
+          box-shadow: none !important;
+          outline: none !important;
+      }
+
+      .share-button .menu-link:hover,
+      .share-button .menu-link_us-s:hover {
+          background: #f8f9fa !important;
+          color: #333 !important;
+          text-decoration: none !important;
+          box-shadow: none !important;
+      }
+
+      .share-button .menu-link:focus,
+      .share-button .menu-link_us-s:focus {
+          background: transparent !important;
+          color: #000 !important;
+          outline: none !important;
+          box-shadow: none !important;
+      }
+
+      /* Ensure no highlighted text appearance */
+      .share-button button {
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+      }
+
+      /* Remove any default button styling */
+      .share-button button::-moz-focus-inner {
+          border: 0 !important;
+          padding: 0 !important;
+      }
+      </style>
       <div class="product-single__meta-info">
         <div class="meta-item">
           <label>SKU:</label>
@@ -423,7 +527,7 @@
                 <input type="hidden" name="id" value="{{$rproduct->id}}" />
                 <input type="hidden" name="quantity" value="1" />
                 <input type="hidden" name="name" value="{{$rproduct->name}}" />
-                <input type="hidden" name="price" value="{{$rproduct->sale_price == '' ?  $rproduct->regular_price : $rproduct->sale_price}}" />
+                <input type="hidden" name="price" value="{{$rproduct->regular_price}}" />
                 <button type="submit" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium" data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
               </form>
               @endif

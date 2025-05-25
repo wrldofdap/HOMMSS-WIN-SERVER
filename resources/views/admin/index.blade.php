@@ -264,33 +264,17 @@
                 var options = {
                     series: [{
                             name: 'Total',
-                            data: [{
-                                {
-                                    $AmountM
-                                }
-                            }]
+                            data: [{{$AmountM}}]
                         }, {
                             name: 'Pending',
-                            data: [{
-                                {
-                                    $OrderedAmountM
-                                }
-                            }]
+                            data: [{{$OrderedAmountM}}]
                         },
                         {
                             name: 'Delivered',
-                            data: [{
-                                {
-                                    $DeliveredAmountM
-                                }
-                            }]
+                            data: [{{$DeliveredAmountM}}]
                         }, {
                             name: 'Canceled',
-                            data: [{
-                                {
-                                    $CanceledAmountM
-                                }
-                            }]
+                            data: [{{$CanceledAmountM}}]
                         }
                     ],
                     chart: {

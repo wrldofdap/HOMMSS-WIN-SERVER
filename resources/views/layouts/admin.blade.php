@@ -29,18 +29,25 @@
 
     <!-- Discord-inspired CSS -->
     <style>
-        /* Discord Light Theme Colors */
+        /* Discord Light Theme Colors with HOMMSS Blue */
         :root {
             --discord-bg: #ffffff;
             --discord-sidebar: #f2f3f5;
             --discord-hover: #e3e5e8;
             --discord-text: #2e3338;
             --discord-muted: #747f8d;
-            --discord-accent: #5865f2;
+            --discord-accent: #2275fc; /* HOMMSS Blue */
             --discord-green: #3ba55c;
             --discord-divider: #e3e5e8;
             --discord-card: #f8f9fa;
             --discord-shadow: rgba(0, 0, 0, 0.08);
+
+            /* HOMMSS Blue Theme Variables */
+            --hommss-blue: #2275fc;
+            --hommss-blue-hover: #1a5fd9;
+            --hommss-blue-active: #1554c7;
+            --hommss-blue-light: #e6f0ff;
+            --hommss-blue-dark: #0f4bb5;
         }
 
         /* Global Styles */
@@ -125,7 +132,28 @@
         }
 
         .form-search .button-submit button {
-            color: var(--discord-muted);
+            background: transparent !important;
+            border: none !important;
+            color: #000 !important;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-search .button-submit button:hover {
+            background: #f8f9fa !important;
+            transform: translateY(-1px);
+            color: #000 !important;
+        }
+
+        /* Force all search icons to be black with no background */
+        .form-search .button-submit button i {
+            color: #000 !important;
+            font-size: 16px;
+        }
+
+        .form-search .button-submit button:hover i {
+            color: #000 !important;
         }
 
         /* Content Area */
@@ -418,6 +446,125 @@
 
         .view-all:hover {
             text-decoration: underline;
+        }
+
+        /* ========================================
+           HOMMSS BLUE BUTTON STYLES FOR ADMIN
+           ======================================== */
+
+        .tf-button {
+            background-color: var(--hommss-blue) !important;
+            border-color: var(--hommss-blue) !important;
+            color: #fff !important;
+        }
+
+        .tf-button:hover {
+            background-color: var(--hommss-blue-hover) !important;
+            border-color: var(--hommss-blue-hover) !important;
+            color: #fff !important;
+        }
+
+        .btn-primary {
+            background-color: var(--hommss-blue) !important;
+            border-color: var(--hommss-blue) !important;
+            color: #fff !important;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hommss-blue-hover) !important;
+            border-color: var(--hommss-blue-hover) !important;
+            color: #fff !important;
+        }
+
+        button[type="submit"] {
+            background-color: var(--hommss-blue) !important;
+            border-color: var(--hommss-blue) !important;
+            color: #fff !important;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--hommss-blue-hover) !important;
+            border-color: var(--hommss-blue-hover) !important;
+            color: #fff !important;
+        }
+
+        /* Admin specific button styles */
+        .btn-success {
+            background-color: var(--hommss-blue) !important;
+            border-color: var(--hommss-blue) !important;
+        }
+
+        .btn-info {
+            background-color: var(--hommss-blue) !important;
+            border-color: var(--hommss-blue) !important;
+        }
+
+        /* Admin action buttons */
+        .list-icon-function .item:not(.delete) {
+            color: var(--hommss-blue) !important;
+        }
+
+        .list-icon-function .item:not(.delete):hover {
+            background-color: var(--hommss-blue-light) !important;
+        }
+
+        /* Remove gray background from notification and username dropdowns */
+        .header-grid .dropdown .btn.btn-secondary {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 8px 12px;
+        }
+
+        .header-grid .dropdown .btn.btn-secondary:hover,
+        .header-grid .dropdown .btn.btn-secondary:focus,
+        .header-grid .dropdown .btn.btn-secondary:active {
+            background-color: var(--discord-hover) !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .header-grid .dropdown .btn.btn-secondary:focus {
+            outline: none !important;
+        }
+
+        /* Style the notification and user items */
+        .header-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--discord-text);
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--discord-text);
+        }
+
+        .header-user .image img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .header-user .flex.flex-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-user .body-title {
+            font-weight: 500;
+            color: var(--discord-text);
+            margin-bottom: 2px;
+        }
+
+        .header-user .text-tiny {
+            color: var(--discord-muted);
+            font-size: 12px;
         }
     </style>
 
@@ -712,63 +859,30 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-item">
-                                                <span class="text-tiny">1</span>
+                                                <span class="text-tiny notification-count">0</span>
                                                 <i class="icon-bell"></i>
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end has-content"
-                                            aria-labelledby="dropdownMenuButton2">
-                                            <li>
-                                                <h6>Notifications</h6>
-                                            </li>
-                                            <!-- <li>
-                                                <div class="message-item item-1">
-                                                    <div class="image">
-                                                        <i class="icon-noti-1"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Discount available</div>
-                                                        <div class="text-tiny">Morbi sapien massa, ultricies at rhoncus
-                                                            at, ullamcorper nec diam</div>
-                                                    </div>
+                                            aria-labelledby="dropdownMenuButton2" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                                            <li class="notification-header">
+                                                <div class="d-flex justify-content-between align-items-center p-3">
+                                                    <h6 class="mb-0">Notifications</h6>
+                                                    <button class="btn btn-sm btn-outline-primary mark-all-read" style="font-size: 11px;">
+                                                        Mark all read
+                                                    </button>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="message-item item-2">
-                                                    <div class="image">
-                                                        <i class="icon-noti-2"></i>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <div id="notification-list">
+                                                <li class="no-notifications text-center p-3">
+                                                    <div class="text-muted">
+                                                        <i class="icon-bell me-2"></i>
+                                                        No new notifications
                                                     </div>
-                                                    <div>
-                                                        <div class="body-title-2">Account has been verified</div>
-                                                        <div class="text-tiny">Mauris libero ex, iaculis vitae rhoncus
-                                                            et</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-3">
-                                                    <div class="image">
-                                                        <i class="icon-noti-3"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Order shipped successfully</div>
-                                                        <div class="text-tiny">Integer aliquam eros nec sollicitudin
-                                                            sollicitudin</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-4">
-                                                    <div class="image">
-                                                        <i class="icon-noti-4"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Order pending: <span>ID 305830</span>
-                                                        </div>
-                                                        <div class="text-tiny">Ultricies at rhoncus at ullamcorper</div>
-                                                    </div>
-                                                </div>
-                                            </li> -->
+                                                </li>
+                                            </div>
+                                            <li><hr class="dropdown-divider"></li>
                                             <li><a href="#" class="tf-button w-full">View all</a></li>
                                         </ul>
                                     </div>
@@ -799,31 +913,6 @@
                                                         <i class="icon-user"></i>
                                                     </div>
                                                     <div class="body-title-2">Account</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-mail"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-file-text"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Taskboard</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-headphones"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Support</div>
                                                 </a>
                                             </li>
                                             <li>
@@ -863,6 +952,135 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+
+    <!-- Notification System -->
+    <script>
+        $(document).ready(function() {
+            // Load notifications on page load
+            loadNotifications();
+
+            // Refresh notifications every 30 seconds
+            setInterval(loadNotifications, 30000);
+
+            // Mark all as read functionality
+            $('.mark-all-read').on('click', function(e) {
+                e.preventDefault();
+                markAllAsRead();
+            });
+        });
+
+        function loadNotifications() {
+            $.ajax({
+                url: '{{ route("notifications.get") }}',
+                type: 'GET',
+                success: function(data) {
+                    updateNotificationUI(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading notifications:', error);
+                }
+            });
+        }
+
+        function updateNotificationUI(data) {
+            // Update notification count
+            $('.notification-count').text(data.unread_count);
+
+            // Show/hide notification badge
+            if (data.unread_count > 0) {
+                $('.notification-count').show();
+                $('.icon-bell').addClass('text-warning');
+            } else {
+                $('.notification-count').hide();
+                $('.icon-bell').removeClass('text-warning');
+            }
+
+            // Update notification list
+            const notificationList = $('#notification-list');
+            notificationList.empty();
+
+            if (data.notifications.length === 0) {
+                notificationList.html(`
+                    <li class="no-notifications text-center p-3">
+                        <div class="text-muted">
+                            <i class="icon-bell me-2"></i>
+                            No new notifications
+                        </div>
+                    </li>
+                `);
+            } else {
+                data.notifications.forEach(function(notification) {
+                    const isReadClass = notification.is_read ? 'read' : 'unread';
+                    const bgClass = notification.is_read ? '' : 'bg-light';
+
+                    notificationList.append(`
+                        <li class="notification-item ${isReadClass} ${bgClass}" data-id="${notification.id}">
+                            <div class="message-item p-3" style="cursor: pointer;" onclick="handleNotificationClick(${notification.id}, '${notification.url}')">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i class="${notification.icon} text-primary"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="body-title-2 mb-1">${notification.title}</div>
+                                        <div class="text-tiny text-muted">${notification.message}</div>
+                                        <div class="text-tiny text-muted mt-1">
+                                            <i class="icon-clock me-1"></i>${notification.time_ago}
+                                        </div>
+                                    </div>
+                                    ${!notification.is_read ? '<div class="notification-dot bg-primary rounded-circle" style="width: 8px; height: 8px;"></div>' : ''}
+                                </div>
+                            </div>
+                        </li>
+                    `);
+                });
+            }
+        }
+
+        function handleNotificationClick(notificationId, url) {
+            // Mark as read
+            $.ajax({
+                url: '{{ route("notifications.mark-read") }}',
+                type: 'POST',
+                data: {
+                    notification_id: notificationId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Reload notifications to update UI
+                    loadNotifications();
+
+                    // Navigate to URL if provided
+                    if (url && url !== '#') {
+                        window.location.href = url;
+                    }
+                }
+            });
+        }
+
+        function markAllAsRead() {
+            $.ajax({
+                url: '{{ route("notifications.mark-all-read") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    loadNotifications();
+
+                    // Show success message
+                    if (typeof swal !== 'undefined') {
+                        swal({
+                            title: "Success!",
+                            text: response.message,
+                            type: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                }
+            });
+        }
+    </script>
 
     @stack('scripts')
 </body>

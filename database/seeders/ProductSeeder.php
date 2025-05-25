@@ -32,7 +32,6 @@ class ProductSeeder extends Seeder
                             'short_description' => $product['short_description'],
                             'description' => $product['description'],
                             'regular_price' => $product['regular_price'],
-                            'sale_price' => $product['sale_price'],
                             'SKU' => $product['SKU'],
                             'stock_status' => $product['stock_status'],
                             'featured' => $product['featured'],

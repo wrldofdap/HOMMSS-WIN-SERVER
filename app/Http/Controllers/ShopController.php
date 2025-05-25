@@ -29,11 +29,11 @@ class ShopController extends Controller
                 $o_order = "ASC";
                 break;
             case 3:
-                $o_column = "sale_price";
+                $o_column = "regular_price";
                 $o_order = "ASC";
                 break;
             case 4:
-                $o_column = "sale_price";
+                $o_column = "regular_price";
                 $o_order = "DESC";
                 break;
             default:
@@ -50,10 +50,7 @@ class ShopController extends Controller
             ->when($f_categories, function ($query) use ($f_categories) {
                 $query->whereIn('category_id', explode(',', $f_categories));
             })
-            ->where(function ($query) use ($min_price, $max_price) {
-                $query->whereBetween('regular_price', [$min_price, $max_price])
-                    ->orWhereBetween('sale_price', [$min_price, $max_price]);
-            })
+            ->whereBetween('regular_price', [$min_price, $max_price])
             ->orderBy($o_column, $o_order)
             ->paginate($size);
 

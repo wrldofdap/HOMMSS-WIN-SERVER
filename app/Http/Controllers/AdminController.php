@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Transaction;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
@@ -130,7 +131,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:brands,slug,' . $request->id,
-            'image' => 'mimes:png,jpg,jpeg|max:2048',
+            'image' => 'mimes:png,jpg,jpeg,webp|max:10240',
         ]);
 
         $brand = Brand::findOrFail($request->id);
@@ -195,7 +196,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:categories,slug',
-            'image' => 'mimes:png,jpg,jpeg|max:2048',
+            'image' => 'mimes:png,jpg,jpeg,webp|max:10240',
         ]);
 
         $category = new Category();
@@ -236,7 +237,7 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:categories,slug,' . $request->id,
-            'image' => 'mimes:png,jpg,jpeg|max:2048',
+            'image' => 'mimes:png,jpg,jpeg,webp|max:10240',
         ]);
 
         $category = Category::findOrFail($request->id);
@@ -269,10 +270,35 @@ class AdminController extends Controller
         return redirect()->route('admin.categories')->with('status', 'Category has been deleted successfully');
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        $products = Product::orderBy('created_at', 'DESC')->paginate(10);
-        return view('admin.products', compact('products'));
+        $search = $request->input('name');
+
+        $query = Product::with(['category', 'brand'])->orderBy('created_at', 'DESC');
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('SKU', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%')
+                  ->orWhere('short_description', 'like', '%' . $search . '%')
+                  ->orWhereHas('category', function($categoryQuery) use ($search) {
+                      $categoryQuery->where('name', 'like', '%' . $search . '%');
+                  })
+                  ->orWhereHas('brand', function($brandQuery) use ($search) {
+                      $brandQuery->where('name', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+
+        $products = $query->paginate(10);
+
+        // Pass the search parameter to maintain it during pagination
+        if ($search) {
+            $products->appends(['name' => $search]);
+        }
+
+        return view('admin.products', compact('products', 'search'));
     }
 
     public function product_add()
@@ -290,12 +316,11 @@ class AdminController extends Controller
             'short_description' => 'required',
             'description' => 'required',
             'regular_price' => 'required|numeric',
-            'sale_price' => 'required|numeric',
             'SKU' => 'required',
             'stock_status' => 'required',
             'featured' => 'required|boolean',
             'quantity' => 'required|integer|min:1',
-            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'image' => 'required|mimes:png,jpg,jpeg,webp|max:10240',
             'category_id' => 'required',
             'brand_id' => 'required',
         ]);
@@ -306,7 +331,6 @@ class AdminController extends Controller
         $product->short_description = $request->short_description;
         $product->description = $request->description;
         $product->regular_price = $request->regular_price;
-        $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;
@@ -353,6 +377,14 @@ class AdminController extends Controller
         $destinationPath = public_path('uploads/products'); // Full-size image folder
         $destinationPathThumbnail = public_path('uploads/products/thumbnails'); // Thumbnail folder
 
+        // Create directories if they don't exist
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0755, true);
+        }
+        if (!File::exists($destinationPathThumbnail)) {
+            File::makeDirectory($destinationPathThumbnail, 0755, true);
+        }
+
         // Save full-size image
         $img = Image::read($image->path());
         $img->cover(540, 689, "top");
@@ -383,12 +415,11 @@ class AdminController extends Controller
             'short_description' => 'required',
             'description' => 'required',
             'regular_price' => 'required|numeric',
-            'sale_price' => 'required|numeric',
             'SKU' => 'required',
             'stock_status' => 'required',
             'featured' => 'required|boolean',
             'quantity' => 'required|integer|min:1',
-            'image' => 'mimes:png,jpg,jpeg|max:2048',
+            'image' => 'mimes:png,jpg,jpeg,webp|max:10240',
             'category_id' => 'required',
             'brand_id' => 'required',
         ]);
@@ -399,7 +430,6 @@ class AdminController extends Controller
         $product->short_description = $request->short_description;
         $product->description = $request->description;
         $product->regular_price = $request->regular_price;
-        $product->sale_price = $request->sale_price;
         $product->SKU = $request->SKU;
         $product->stock_status = $request->stock_status;
         $product->featured = $request->featured;

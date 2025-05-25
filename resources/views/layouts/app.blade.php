@@ -44,12 +44,12 @@
             padding-top: 120px; /* Consistent padding for all pages */
             position: relative;
         }
-        
+
         /* Ensure all page containers have proper spacing */
         .page-container {
             padding-top: 20px;
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 991px) {
             main {
@@ -408,10 +408,10 @@
                             <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="about.html" class="navigation__link">About</a>
+                            <a href="{{ route('about') }}" class="navigation__link">About</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link">Contact</a>
+                            <a href="{{ route('contact') }}" class="navigation__link">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -497,10 +497,10 @@
                             <a href="{{route('cart.index')}}" class="navigation__link">Cart</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="about.html" class="navigation__link">About</a>
+                            <a href="{{ route('about') }}" class="navigation__link">About</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link">Contact</a>
+                            <a href="{{ route('contact') }}" class="navigation__link">Contact</a>
                         </li>
                     </ul>
                 </nav>
@@ -520,18 +520,25 @@
                         <div class="search-popup js-hidden-content">
                             <form action="#" method="GET" class="search-field container">
                                 <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
-                                <div class="position-relative">
-                                    <input class="search-field__input search-popup__input w-100 fw-medium" type="text" name="search-keyword" id="search-input" placeholder="Search products" autocomplete="off" />
-                                    <button class="btn-icon search-popup__submit" type="submit">
+                                <div class="position-relative hommss-search-container">
+                                    <input class="search-field__input search-popup__input w-100 fw-medium hommss-search-input" type="text" name="search-keyword" id="search-input" placeholder="Search products" autocomplete="off" />
+                                    <button class="btn-icon search-popup__submit hommss-search-btn" type="submit">
                                         <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <use href="#icon_search" />
                                         </svg>
                                     </button>
-                                    <button class="btn-icon btn-close-lg search-popup__reset" type="reset"></button>
+                                    <button class="btn-icon btn-close-lg search-popup__reset hommss-search-reset" type="reset"></button>
+
+                                    <!-- Loading indicator -->
+                                    <div class="hommss-search-loading" id="search-loading" style="display: none;">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="box-content-search" id="box-content-search">
+                                <div class="box-content-search hommss-search-results" id="box-content-search">
                                     <!-- Search results will be loaded here -->
                                 </div>
                             </form>
@@ -620,8 +627,10 @@
                 <div class="container d-md-flex align-items-center">
                     <span class="footer-copyright me-auto">©2025 HOMMSS CORPORATION </span>
                     <div class="footer-settings d-md-flex align-items-center">
-                        <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-conditions.html">Terms &amp;
-                            Conditions</a>
+                        <a href="{{ route('about') }}">About</a> &nbsp;|&nbsp;
+                        <a href="{{ route('contact') }}">Contact</a> &nbsp;|&nbsp;
+                        <a href="{{ route('privacy') }}">Privacy Policy</a> &nbsp;|&nbsp;
+                        <a href="{{ route('terms') }}">Terms &amp; Conditions</a>
                     </div>
                 </div>
             </div>
@@ -668,6 +677,341 @@
     <div id="scrollTop" class="visually-hidden end-0"></div>
     <div class="page-overlay"></div>
 
+    <!-- Enhanced Search Styling -->
+    <style>
+    /* HOMMSS Search Container - Rectangular Design */
+    .hommss-search-container {
+        position: relative;
+    }
+
+    /* Search Input - Rectangular with HOMMSS Blue Theme */
+    .hommss-search-input {
+        border-radius: 0 !important;
+        border: 2px solid #e1e5e9 !important;
+        padding: 14px 50px 14px 16px !important;
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        background: #fff !important;
+        color: #111 !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .hommss-search-input:focus {
+        border-color: var(--hommss-blue, #2275fc) !important;
+        box-shadow: 0 0 0 3px rgba(34, 117, 252, 0.15) !important;
+        outline: none !important;
+    }
+
+    .hommss-search-input::placeholder {
+        color: #858B93 !important;
+        font-weight: 400 !important;
+    }
+
+    /* Search Button - Rectangular Blue */
+    .hommss-search-btn {
+        position: absolute !important;
+        right: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        background: var(--hommss-blue, #2275fc) !important;
+        border: none !important;
+        border-radius: 0 !important;
+        width: 36px !important;
+        height: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #fff !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer !important;
+    }
+
+    .hommss-search-btn:hover {
+        background: var(--hommss-blue-hover, #1a5fd9) !important;
+        transform: translateY(-50%) scale(1.05) !important;
+    }
+
+    .hommss-search-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+        stroke: #fff !important;
+    }
+
+    /* Reset Button */
+    .hommss-search-reset {
+        position: absolute !important;
+        right: 54px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        background: #f8f9fa !important;
+        border: 1px solid #e1e5e9 !important;
+        border-radius: 0 !important;
+        width: 32px !important;
+        height: 32px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #6c757d !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer !important;
+    }
+
+    .hommss-search-reset:hover {
+        background: #e9ecef !important;
+        color: #495057 !important;
+    }
+
+    /* Loading Indicator */
+    .hommss-search-loading {
+        position: absolute !important;
+        right: 60px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 10 !important;
+    }
+
+    .hommss-search-loading .spinner-border-sm {
+        width: 1.2rem !important;
+        height: 1.2rem !important;
+        border-width: 0.15em !important;
+    }
+
+    /* Search Results Container - Professional Dropdown */
+    .hommss-search-results {
+        position: absolute !important;
+        top: calc(100% + 8px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #fff !important;
+        border: 2px solid #e1e5e9 !important;
+        border-radius: 0 !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+        z-index: 1000 !important;
+        max-height: 480px !important;
+        overflow-y: auto !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateY(-10px) !important;
+        transition: all 0.3s ease !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hommss-search-results.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+    }
+
+    /* Search Results Header */
+    .hommss-search-header {
+        padding: 16px 20px !important;
+        border-bottom: 1px solid #e1e5e9 !important;
+        background: #f8f9fa !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .hommss-search-header h6 {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #111 !important;
+        margin: 0 !important;
+    }
+
+    .hommss-search-count {
+        font-size: 12px !important;
+        color: #6c757d !important;
+        background: #e9ecef !important;
+        padding: 4px 8px !important;
+        border-radius: 0 !important;
+        font-weight: 500 !important;
+    }
+
+    /* Search Results List */
+    .hommss-search-list {
+        padding: 8px 0 !important;
+    }
+
+    /* Individual Search Result Item */
+    .hommss-search-item {
+        border-bottom: 1px solid #f1f3f4 !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .hommss-search-item:last-child {
+        border-bottom: none !important;
+    }
+
+    .hommss-search-item:hover {
+        background: #f8f9fa !important;
+    }
+
+    .hommss-search-link {
+        display: flex !important;
+        align-items: center !important;
+        padding: 12px 20px !important;
+        text-decoration: none !important;
+        color: inherit !important;
+        gap: 12px !important;
+    }
+
+    .hommss-search-link:hover {
+        text-decoration: none !important;
+        color: inherit !important;
+    }
+
+    /* Product Image in Search Results */
+    .hommss-search-image {
+        flex-shrink: 0 !important;
+        width: 48px !important;
+        height: 48px !important;
+        border: 1px solid #e1e5e9 !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        background: #f8f9fa !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .hommss-search-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 0 !important;
+    }
+
+    /* Product Content in Search Results */
+    .hommss-search-content {
+        flex: 1 !important;
+        min-width: 0 !important;
+    }
+
+    .hommss-search-title {
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        color: #111 !important;
+        margin: 0 0 4px 0 !important;
+        line-height: 1.4 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    .hommss-search-price {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: var(--hommss-blue, #2275fc) !important;
+        margin: 0 0 4px 0 !important;
+    }
+
+    .hommss-search-category {
+        font-size: 12px !important;
+        color: #6c757d !important;
+        background: #e9ecef !important;
+        padding: 2px 6px !important;
+        border-radius: 0 !important;
+        font-weight: 400 !important;
+    }
+
+    /* Search Footer - View All Results */
+    .hommss-search-footer {
+        padding: 12px 20px !important;
+        border-top: 1px solid #e1e5e9 !important;
+        background: #f8f9fa !important;
+        text-align: center !important;
+    }
+
+    .hommss-view-all-btn {
+        display: inline-block !important;
+        padding: 8px 16px !important;
+        background: var(--hommss-blue, #2275fc) !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        border-radius: 0 !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+        border: 2px solid var(--hommss-blue, #2275fc) !important;
+    }
+
+    .hommss-view-all-btn:hover {
+        background: var(--hommss-blue-hover, #1a5fd9) !important;
+        border-color: var(--hommss-blue-hover, #1a5fd9) !important;
+        color: #fff !important;
+        text-decoration: none !important;
+        transform: translateY(-1px) !important;
+    }
+
+    /* Empty State */
+    .hommss-search-empty {
+        padding: 40px 20px !important;
+        text-align: center !important;
+        color: #6c757d !important;
+    }
+
+    .hommss-search-empty-icon {
+        margin-bottom: 16px !important;
+        opacity: 0.5 !important;
+    }
+
+    .hommss-search-empty h6 {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        color: #495057 !important;
+        margin: 0 0 8px 0 !important;
+    }
+
+    .hommss-search-empty p {
+        font-size: 14px !important;
+        color: #6c757d !important;
+        margin: 0 !important;
+    }
+
+    /* Error State */
+    .hommss-search-error {
+        padding: 20px !important;
+        text-align: center !important;
+        color: #dc3545 !important;
+        background: #f8d7da !important;
+        border: 1px solid #f5c6cb !important;
+        margin: 8px !important;
+        border-radius: 0 !important;
+    }
+
+    .hommss-search-error p {
+        margin: 0 !important;
+        font-size: 14px !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hommss-search-results {
+            max-height: 360px !important;
+        }
+
+        .hommss-search-item {
+            padding: 8px 16px !important;
+        }
+
+        .hommss-search-image {
+            width: 40px !important;
+            height: 40px !important;
+        }
+
+        .hommss-search-title {
+            font-size: 13px !important;
+        }
+
+        .hommss-search-price {
+            font-size: 13px !important;
+        }
+    }
+    </style>
+
     <!-- Scripts -->
     <script src="{{asset ('assets/js/plugins/jquery.min.js') }}"></script>
     <script src="{{asset ('assets/js/plugins/bootstrap.bundle.min.js') }}"></script>
@@ -678,43 +1022,141 @@
     <script src="{{asset ('assets/js/lazy-loading.js') }}"></script>
     @yield('scripts')
     <script>
+        // Enhanced search functionality with better styling
+        let searchTimeout;
+
         $("#search-input").on("keyup", function() {
-            var searchQuery = $(this).val();
+            var searchQuery = $(this).val().trim();
+            var $searchResults = $("#box-content-search");
+            var $loadingIndicator = $("#search-loading");
+
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+
             if (searchQuery.length > 2) {
-                $.ajax({
-                    type: "GET",
-                    url: "{{ route('home.search') }}",
-                    data: {
-                        query: searchQuery
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        $("#box-content-search").html('');
-                        $.each(data, function(index, item) {
-                            var link = "/product/" + item.slug; // adjust if route differs
-                            $("#box-content-search").append(`
-                            <li>
-                                <ul>
-                                    <li class="product-item gap14 mb-10">
-                                        <div class="image no-bg">
-                                            <img src="{{ asset('uploads/products/thumbnails') }}/${item.image}" alt="${item.name}">
+                // Show loading indicator
+                $loadingIndicator.show();
+                $searchResults.addClass('active').html('');
+
+                // Debounce search requests
+                searchTimeout = setTimeout(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('home.search') }}",
+                        data: {
+                            query: searchQuery
+                        },
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $loadingIndicator.show();
+                        },
+                        success: function(data) {
+                            $loadingIndicator.hide();
+                            $searchResults.html('');
+
+                            if (data.length > 0) {
+                                // Add search results header
+                                $searchResults.append(`
+                                    <div class="hommss-search-header">
+                                        <h6 class="mb-0">Search Results</h6>
+                                        <span class="hommss-search-count">${data.length} found</span>
+                                    </div>
+                                `);
+
+                                // Add results container
+                                var $resultsList = $('<div class="hommss-search-list"></div>');
+
+                                $.each(data, function(index, item) {
+                                    var link = "{{ url('/shop') }}/" + item.slug;
+                                    var price = item.regular_price ? '₱' + parseFloat(item.regular_price).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : 'Price not available';
+                                    var imageUrl = item.image ? "{{ asset('uploads/products/thumbnails') }}/" + item.image : "{{ asset('assets/images/no-image.png') }}";
+
+                                    $resultsList.append(`
+                                        <div class="hommss-search-item">
+                                            <a href="${link}" class="hommss-search-link">
+                                                <div class="hommss-search-image">
+                                                    <img src="${imageUrl}" alt="${item.name}" loading="lazy">
+                                                </div>
+                                                <div class="hommss-search-content">
+                                                    <h6 class="hommss-search-title">${item.name}</h6>
+                                                    <p class="hommss-search-price">${price}</p>
+                                                    ${item.category ? `<span class="hommss-search-category">${item.category.name}</span>` : ''}
+                                                </div>
+                                            </a>
                                         </div>
-                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                            <div class="name">
-                                                <a href="${link}" class="body-text">${item.name}</a>
-                                            </div>
+                                    `);
+                                });
+
+                                $searchResults.append($resultsList);
+
+                                // Add "View All Results" link if there are many results
+                                if (data.length >= 8) {
+                                    $searchResults.append(`
+                                        <div class="hommss-search-footer">
+                                            <a href="/shop?search=${encodeURIComponent(searchQuery)}" class="hommss-view-all-btn">
+                                                View All ${data.length} Results
+                                            </a>
                                         </div>
-                                    </li>
-                                    <li class="mb-10">
-                                        <div class="divider"></div>
-                                    </li>
-                                </ul>
-                            </li>
-                        `);
-                        });
-                    }
-                });
+                                    `);
+                                }
+                            } else {
+                                $searchResults.html(`
+                                    <div class="hommss-search-empty">
+                                        <div class="hommss-search-empty-icon">
+                                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                <circle cx="11" cy="11" r="8"></circle>
+                                                <path d="m21 21-4.35-4.35"></path>
+                                            </svg>
+                                        </div>
+                                        <h6>No products found</h6>
+                                        <p>Try searching with different keywords</p>
+                                    </div>
+                                `);
+                            }
+                        },
+                        error: function() {
+                            $loadingIndicator.hide();
+                            $searchResults.html(`
+                                <div class="hommss-search-error">
+                                    <p>Something went wrong. Please try again.</p>
+                                </div>
+                            `);
+                        }
+                    });
+                }, 300); // 300ms debounce
+            } else {
+                $searchResults.removeClass('active').html('');
+                $loadingIndicator.hide();
             }
+        });
+
+        // Hide search results when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.search-field').length) {
+                $("#box-content-search").removeClass('active');
+            }
+        });
+
+        // Show search results when input is focused and has content
+        $("#search-input").on('focus', function() {
+            if ($(this).val().trim().length > 2 && $("#box-content-search").html().trim() !== '') {
+                $("#box-content-search").addClass('active');
+            }
+        });
+
+        // Handle search result clicks
+        $(document).on('click', '.hommss-search-link', function(e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+
+            // Close search dropdown
+            $("#box-content-search").removeClass('active');
+
+            // Clear search input
+            $("#search-input").val('');
+
+            // Navigate to product page
+            window.location.href = href;
         });
     </script>
 
@@ -747,18 +1189,18 @@
             function adjustSpacing() {
                 const headerHeight = $('.header').outerHeight();
                 $('main').css('padding-top', headerHeight + 20 + 'px'); // 20px extra space
-                
+
                 // Adjust specific page elements if they exist
                 if ($('.product-details-container').length) {
                     $('.product-details-container').css('padding-top', headerHeight + 20 + 'px');
                 }
-                
+
                 if ($('.shop-main').length) {
                     $('.shop-main').css('padding-top', headerHeight + 20 + 'px');
                     $('.shop-sidebar').css('top', headerHeight + 20 + 'px');
                 }
             }
-            
+
             // Run on page load and window resize
             adjustSpacing();
             $(window).on('resize', adjustSpacing);

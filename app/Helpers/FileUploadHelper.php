@@ -30,9 +30,48 @@ class FileUploadHelper
     ];
 
     /**
-     * Maximum file size in bytes (2MB)
+     * Maximum file size in bytes (10MB)
+     * Can be overridden via getMaxFileSize() method
      */
-    private static $maxFileSize = 2097152;
+    private static $maxFileSize = 10485760;
+
+    /**
+     * Get maximum file size in bytes
+     * Can be configured via environment variable or config
+     *
+     * @return int
+     */
+    public static function getMaxFileSize(): int
+    {
+        return config('upload.max_file_size', self::$maxFileSize);
+    }
+
+    /**
+     * Get maximum file size in kilobytes for validation rules
+     *
+     * @return int
+     */
+    public static function getMaxFileSizeKB(): int
+    {
+        return (int) (self::getMaxFileSize() / 1024);
+    }
+
+    /**
+     * Get human-readable file size
+     *
+     * @return string
+     */
+    public static function getMaxFileSizeHuman(): string
+    {
+        $bytes = self::getMaxFileSize();
+        $units = ['B', 'KB', 'MB', 'GB'];
+
+        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
+            $bytes /= 1024;
+        }
+
+        return round($bytes, 1) . $units[$i];
+    }
 
     /**
      * Validate uploaded image file
@@ -45,8 +84,10 @@ class FileUploadHelper
         $errors = [];
 
         // Check file size
-        if ($file->getSize() > self::$maxFileSize) {
-            $errors[] = 'File size must not exceed 2MB';
+        $maxSize = self::getMaxFileSize();
+        if ($file->getSize() > $maxSize) {
+            $maxSizeMB = round($maxSize / 1048576, 1);
+            $errors[] = "File size must not exceed {$maxSizeMB}MB";
         }
 
         // Check MIME type
@@ -207,10 +248,11 @@ class FileUploadHelper
      */
     public static function getImageValidationRules(bool $required = true): array
     {
+        $maxSizeKB = self::getMaxFileSizeKB();
         $rules = [
             'image',
             'mimes:jpeg,png,jpg,webp',
-            'max:2048', // 2MB in kilobytes
+            "max:{$maxSizeKB}", // Dynamic file size in kilobytes
             'dimensions:min_width=10,min_height=10,max_width=5000,max_height=5000'
         ];
 

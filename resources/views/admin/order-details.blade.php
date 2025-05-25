@@ -44,6 +44,23 @@
         color: #333;
     }
 
+    /* White Printer Icon for Print Button */
+    .hommss-print-btn .icon-printer {
+        color: #fff !important;
+    }
+
+    .hommss-print-btn:hover .icon-printer {
+        color: #fff !important;
+    }
+
+    .hommss-print-btn:focus .icon-printer {
+        color: #fff !important;
+    }
+
+    .hommss-print-btn:active .icon-printer {
+        color: #fff !important;
+    }
+
     .customer-info td {
         color: #555;
     }
@@ -216,7 +233,7 @@
                     <h5>Ordered Details</h5>
                 </div>
                 <div class="flex gap-2">
-                    <a class="tf-button style-2" href="{{ route('admin.order.packing-slip', ['order_id' => $order->id]) }}" target="_blank">
+                    <a class="tf-button style-2 hommss-print-btn" href="{{ route('admin.order.packing-slip', ['order_id' => $order->id]) }}" target="_blank">
                         <i class="icon-printer mr-1"></i>Print Packing Slip
                     </a>
                     <a class="tf-button style-1" href="{{route('admin.orders')}}">Back</a>

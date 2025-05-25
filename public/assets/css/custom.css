@@ -60,3 +60,677 @@
 .w208 {
     width: 208px;
 }
+
+/* ========================================
+   HOMMSS BLUE BUTTON THEME
+   ======================================== */
+
+/* Define the HOMMSS blue color variables */
+:root {
+    --hommss-blue: #2275fc;
+    --hommss-blue-hover: #1a5fd9;
+    --hommss-blue-active: #1554c7;
+    --hommss-blue-light: #e6f0ff;
+    --hommss-blue-dark: #0f4bb5;
+}
+
+/* ========================================
+   BOOTSTRAP BUTTONS
+   ======================================== */
+
+/* Primary Button */
+.btn-primary {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    box-shadow: none !important;
+}
+
+.btn-primary:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    color: #fff !important;
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    color: #fff !important;
+    background-color: var(--hommss-blue-active) !important;
+    border-color: var(--hommss-blue-active) !important;
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    opacity: 0.65 !important;
+}
+
+/* Secondary Button - Blue Outline */
+.btn-secondary {
+    color: var(--hommss-blue) !important;
+    background-color: transparent !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-secondary:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+.btn-secondary:active,
+.btn-secondary.active,
+.show > .btn-secondary.dropdown-toggle {
+    color: #fff !important;
+    background-color: var(--hommss-blue-active) !important;
+    border-color: var(--hommss-blue-active) !important;
+}
+
+/* Outline Primary Button */
+.btn-outline-primary {
+    color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+.btn-outline-primary:active,
+.btn-outline-primary.active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* Outline Light Button (for size filters) */
+.btn-outline-light {
+    color: #333 !important;
+    border-color: #dee2e6 !important;
+    background-color: #f8f9fa !important;
+    font-weight: 500 !important;
+}
+
+.btn-outline-light:hover {
+    color: var(--hommss-blue) !important;
+    background-color: #fff !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-outline-light:focus,
+.btn-outline-light.focus {
+    color: #333 !important;
+    background-color: #f8f9fa !important;
+    border-color: var(--hommss-blue) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+.btn-outline-light:active,
+.btn-outline-light.active {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* Size filter buttons - specific styling */
+.swatch-size {
+    color: #333 !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    transition: all 0.2s ease !important;
+    font-size: 14px !important;
+}
+
+.swatch-size:hover {
+    color: var(--hommss-blue) !important;
+    background-color: #fff !important;
+    border-color: var(--hommss-blue) !important;
+    text-decoration: none !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 8px rgba(34, 117, 252, 0.15) !important;
+}
+
+.swatch-size:focus {
+    color: #333 !important;
+    background-color: #f8f9fa !important;
+    border-color: var(--hommss-blue) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+    outline: none !important;
+}
+
+.swatch-size.active,
+.swatch-size:active {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   THEME BUTTONS (.tf-button)
+   ======================================== */
+
+.tf-button {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    transition: all 0.3s ease !important;
+}
+
+.tf-button:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 117, 252, 0.3);
+}
+
+.tf-button:focus {
+    color: #fff !important;
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+.tf-button:active {
+    color: #fff !important;
+    background-color: var(--hommss-blue-active) !important;
+    border-color: var(--hommss-blue-active) !important;
+}
+
+/* TF Button Variants */
+.tf-button.style-1 {
+    color: var(--hommss-blue) !important;
+    background-color: #fff !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.tf-button.style-1:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.tf-button.style-2 {
+    color: var(--hommss-blue) !important;
+    background-color: var(--hommss-blue-light) !important;
+    border-color: var(--hommss-blue-light) !important;
+}
+
+.tf-button.style-2:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   ADDITIONAL BUTTON VARIANTS
+   ======================================== */
+
+/* Success, Info, Warning, Danger buttons with blue theme */
+.btn-success {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-success:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+.btn-info {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-info:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+/* Button sizes with blue theme */
+.btn-lg {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-sm {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   FORM SUBMIT BUTTONS
+   ======================================== */
+
+/* Contact form and other form submit buttons */
+button[type="submit"],
+input[type="submit"] {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    transition: all 0.3s ease !important;
+}
+
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(34, 117, 252, 0.3);
+}
+
+button[type="submit"]:focus,
+input[type="submit"]:focus {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+/* ========================================
+   ADMIN PANEL BUTTONS
+   ======================================== */
+
+/* Admin dashboard buttons */
+.tf-button-funtion:hover {
+    background-color: var(--hommss-blue-light) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.tf-button-funtion:hover i,
+.tf-button-funtion:hover div {
+    color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   CART AND SHOP BUTTONS
+   ======================================== */
+
+/* Add to cart buttons */
+.btn-addtocart,
+.addtocart-btn,
+.add-to-cart {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-addtocart:hover,
+.addtocart-btn:hover,
+.add-to-cart:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 117, 252, 0.3);
+}
+
+/* Buy now buttons */
+.btn-buynow,
+.buynow-btn {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.btn-buynow:hover,
+.buynow-btn:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+/* ========================================
+   PAGINATION BUTTONS
+   ======================================== */
+
+.page-link {
+    color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue-light) !important;
+}
+
+.page-link:hover {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.page-item.active .page-link {
+    color: #fff !important;
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   DROPDOWN BUTTONS
+   ======================================== */
+
+.dropdown-toggle {
+    color: var(--hommss-blue) !important;
+}
+
+.dropdown-toggle:hover {
+    color: var(--hommss-blue-hover) !important;
+}
+
+.btn.dropdown-toggle {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    color: #fff !important;
+}
+
+.btn.dropdown-toggle:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+/* ========================================
+   SPECIFIC COMPONENT BUTTONS
+   ======================================== */
+
+/* Navigation buttons */
+.navigation__link:hover {
+    color: var(--hommss-blue) !important;
+}
+
+/* Search buttons */
+.search-popup__submit,
+.btn-search {
+    color: var(--hommss-blue) !important;
+}
+
+.search-popup__submit:hover,
+.btn-search:hover {
+    color: var(--hommss-blue-hover) !important;
+}
+
+/* Filter and sort buttons */
+.filter-btn,
+.sort-btn {
+    color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.filter-btn:hover,
+.sort-btn:hover {
+    background-color: var(--hommss-blue) !important;
+    color: #fff !important;
+}
+
+/* Product action buttons */
+.product-action-btn,
+.quick-view-btn,
+.wishlist-btn {
+    color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue-light) !important;
+}
+
+.product-action-btn:hover,
+.quick-view-btn:hover,
+.wishlist-btn:hover {
+    background-color: var(--hommss-blue) !important;
+    color: #fff !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+/* ========================================
+   DARK THEME COMPATIBILITY
+   ======================================== */
+
+.dark-theme .tf-button {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    color: #fff !important;
+}
+
+.dark-theme .tf-button:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    color: #fff !important;
+}
+
+.dark-theme .btn-primary {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+}
+
+.dark-theme .btn-primary:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+/* ========================================
+   RESPONSIVE BUTTON ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+    .tf-button {
+        padding: 12px 18px !important;
+        font-size: 13px !important;
+    }
+
+    .btn-lg {
+        padding: 10px 16px !important;
+        font-size: 14px !important;
+    }
+
+    button[type="submit"] {
+        width: 100% !important;
+        padding: 12px !important;
+    }
+}
+
+/* ========================================
+   BUTTON FOCUS ACCESSIBILITY
+   ======================================== */
+
+.tf-button:focus-visible,
+.btn:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--hommss-blue) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 117, 252, 0.25) !important;
+}
+
+/* ========================================
+   LOADING STATE BUTTONS
+   ======================================== */
+
+.btn-loading,
+.tf-button-loading {
+    position: relative !important;
+    color: transparent !important;
+}
+
+.btn-loading::after,
+.tf-button-loading::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-left: -8px !important;
+    margin-top: -8px !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 50% !important;
+    border-top-color: transparent !important;
+    animation: button-loading-spinner 1s ease infinite !important;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+/* ========================================
+   BUTTON GROUPS
+   ======================================== */
+
+.btn-group .btn {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    color: #fff !important;
+}
+
+.btn-group .btn:hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+}
+
+.btn-group .btn.active {
+    background-color: var(--hommss-blue-active) !important;
+    border-color: var(--hommss-blue-active) !important;
+}
+
+/* ========================================
+   OVERRIDE IMPORTANT STYLES
+   ======================================== */
+
+/* Ensure our blue theme takes precedence over any existing styles */
+.btn-primary,
+.tf-button,
+button[type="submit"],
+input[type="submit"] {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    color: #fff !important;
+}
+
+/* Final catch-all for any missed button styles - EXCLUDING text elements */
+button:not(.btn-close):not(.btn-icon):not(.navbar-toggler):not(.accordion-button):not(.btn-link):not(.search-popup__submit):not(.search-popup__reset):not(.js-cols-size):not(.btn-close-lg):not(.mobile-nav-activator):not(.dropdown-toggle),
+.button:not(.btn-close):not(.btn-icon):not(.accordion-button):not(.btn-link) {
+    background-color: var(--hommss-blue) !important;
+    border-color: var(--hommss-blue) !important;
+    color: #fff !important;
+    transition: all 0.3s ease !important;
+}
+
+button:not(.btn-close):not(.btn-icon):not(.navbar-toggler):not(.accordion-button):not(.btn-link):not(.search-popup__submit):not(.search-popup__reset):not(.js-cols-size):not(.btn-close-lg):not(.mobile-nav-activator):not(.dropdown-toggle):hover,
+.button:not(.btn-close):not(.btn-icon):not(.accordion-button):not(.btn-link):hover {
+    background-color: var(--hommss-blue-hover) !important;
+    border-color: var(--hommss-blue-hover) !important;
+    color: #fff !important;
+}
+
+/* ========================================
+   PRESERVE NORMAL TEXT ELEMENTS
+   ======================================== */
+
+/* Accordion buttons (Product Categories, Brands, Price Range) */
+.accordion-button {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+.accordion-button:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+/* View number buttons (2, 3, 4) */
+.btn-link,
+.js-cols-size {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.btn-link:hover,
+.js-cols-size:hover {
+    background-color: transparent !important;
+    color: var(--hommss-blue) !important;
+    text-decoration: underline !important;
+}
+
+.btn-link:focus,
+.js-cols-size:focus {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Search buttons */
+.search-popup__submit,
+.search-popup__reset {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+}
+
+.search-popup__submit:hover,
+.search-popup__reset:hover {
+    background-color: transparent !important;
+    color: var(--hommss-blue) !important;
+}
+
+/* Mobile navigation */
+.mobile-nav-activator,
+.btn-close-lg {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+}
+
+/* Dropdown toggles */
+.dropdown-toggle:not(.btn) {
+    background-color: transparent !important;
+    border: none !important;
+    color: inherit !important;
+}
+
+.dropdown-toggle:not(.btn):hover {
+    background-color: transparent !important;
+    color: var(--hommss-blue) !important;
+}

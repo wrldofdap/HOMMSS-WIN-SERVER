@@ -113,4 +113,16 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Email Address
+    |--------------------------------------------------------------------------
+    |
+    | This email address will receive contact form submissions and other
+    | administrative notifications.
+    |
+    */
+
+    'admin_email' => env('ADMIN_EMAIL', 'admin@hommss.com'),
+
 ];

@@ -446,11 +446,7 @@
 
                             <div class="product__price d-flex">
                                 <span class="money price">
-                                    @if($product->sale_price)
-                                    <s>₱{{$product->regular_price}}</s> ₱{{$product->sale_price}}
-                                    @else
                                     ₱{{$product->regular_price}}
-                                    @endif
                                 </span>
                             </div>
                             <button type="button"
