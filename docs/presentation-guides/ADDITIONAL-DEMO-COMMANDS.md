@@ -1,18 +1,18 @@
-# ⚡ QUICK COMMANDS CHEAT SHEET
+# Additional Demo Commands - HOMMSS Presentation
 
-## 🚀 **ESSENTIAL DEMO COMMANDS**
+## Essential Demo Commands
 
-### **Start Application**
+### Start Application
 ```bash
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-### **Monitor OTP for Demo**
+### Monitor OTP for Demo
 ```bash
 tail -f storage/logs/laravel.log | findstr "DEMO OTP"
 ```
 
-### **Security Demo Commands**
+### Security Demo Commands
 ```bash
 # Show routes with security
 php artisan route:list | head -20
@@ -30,7 +30,7 @@ curl -I http://127.0.0.1:8000
 tail -20 storage/logs/laravel.log
 ```
 
-### **Backup Commands**
+### Backup Commands
 ```bash
 php artisan app:backup-database
 php artisan app:restore-database
@@ -38,7 +38,7 @@ php artisan backup:list
 php artisan backup:run
 ```
 
-### **System Status**
+### System Status
 ```bash
 php artisan --version
 php artisan migrate:status
@@ -47,7 +47,7 @@ php artisan config:cache
 
 ---
 
-## 👥 **DEMO ACCOUNTS**
+## Demo Accounts
 
 ```
 Admin Account:
@@ -65,41 +65,41 @@ OTP: Check logs with above command
 
 ---
 
-## 🎯 **PRESENTATION FLOW COMMANDS**
+## Presentation Flow Commands
 
-### **1. Opening Demo (Security Headers)**
+### 1. Opening Demo (Security Headers)
 ```bash
 curl -I http://127.0.0.1:8000
 ```
 
-### **2. OTP Security Demo**
+### 2. OTP Security Demo
 ```bash
 # In separate terminal
 tail -f storage/logs/laravel.log | findstr "DEMO OTP"
 # Then login with demo account
 ```
 
-### **3. Backup Security Demo**
+### 3. Backup Security Demo
 ```bash
 php artisan app:backup-database --filename=presentation-demo
 php artisan backup:list
 ```
 
-### **4. Admin Security Demo**
+### 4. Admin Security Demo
 ```bash
 # Try to access admin as customer
 # Show logs for unauthorized access
 tail -5 storage/logs/laravel.log
 ```
 
-### **5. Real-time Monitoring**
+### 5. Real-time Monitoring
 ```bash
 tail -f storage/logs/laravel.log | findstr "warning\|error\|security"
 ```
 
 ---
 
-## 🔑 **KEY PHRASES**
+## Key Phrases for Presentation
 
 - **"Military-grade AES-256-CBC encryption"**
 - **"Enterprise-level security implementation"**  
@@ -110,9 +110,9 @@ tail -f storage/logs/laravel.log | findstr "warning\|error\|security"
 
 ---
 
-## 🆘 **TROUBLESHOOTING**
+## Troubleshooting
 
-### **If OTP doesn't appear in logs:**
+### If OTP doesn't appear in logs:
 ```bash
 # Check if demo accounts exist
 php artisan tinker
@@ -120,14 +120,14 @@ User::where('email', 'admin@demo.com')->first();
 exit
 ```
 
-### **If application won't start:**
+### If application won't start:
 ```bash
 php artisan config:clear
 php artisan cache:clear
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-### **If backup fails:**
+### If backup fails:
 ```bash
 # Check MySQL path in config/database.php
 # Ensure BACKUP_PASSWORD is set in .env
@@ -135,7 +135,7 @@ php artisan serve --host=127.0.0.1 --port=8000
 
 ---
 
-## 📱 **QUICK TIPS**
+## Quick Tips
 
 1. **Always have two terminals open** - one for app, one for logs
 2. **Test OTP flow before presentation** - Make sure it works
@@ -145,4 +145,4 @@ php artisan serve --host=127.0.0.1 --port=8000
 
 ---
 
-**REMEMBER: You have enterprise-grade security! Show it with confidence!** 🛡️✨
+**Remember: You have enterprise-grade security! Show it with confidence!**
