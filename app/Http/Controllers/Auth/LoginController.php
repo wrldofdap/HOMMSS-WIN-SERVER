@@ -84,12 +84,13 @@ class LoginController extends Controller
 
     private function sendOtpEmail($email, $otp)
     {
-        // Log OTP for demo purposes (remove in production)
-        if (app()->environment('local') && str_contains($email, '@demo.com')) {
+        // Log OTP for demo purposes (works in local and demo accounts)
+        if (app()->environment('local') || str_contains($email, '@demo.com') || str_contains($email, '@example.com')) {
             \Log::info('DEMO OTP Generated', [
                 'email' => $email,
                 'otp' => $otp,
-                'message' => 'Use this OTP for demo login'
+                'message' => 'Use this OTP for demo login',
+                'timestamp' => now()->format('Y-m-d H:i:s')
             ]);
         }
 

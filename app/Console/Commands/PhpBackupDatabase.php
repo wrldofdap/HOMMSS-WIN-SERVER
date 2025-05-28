@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use ZipArchive;
 
-class SimpleBackupDatabase extends Command
+class PhpBackupDatabase extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:simple-backup-database
+    protected $signature = 'app:php-backup-database 
                             {--filename= : Custom filename for the backup}';
 
     /**
@@ -24,29 +24,20 @@ class SimpleBackupDatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Create a simple backup of the database without using Spatie';
+    protected $description = 'Create a database backup using pure PHP (no mysqldump required)';
 
     /**
      * Execute the console command.
-     *
+     * 
      * @return int
      */
     public function handle(): int
     {
-        $this->info('Starting simple database backup process...');
+        $this->info('Starting PHP database backup process...');
 
         try {
-            // Get database configuration
-            $connection = config('database.default');
-            $config = config("database.connections.{$connection}");
-
-            if (!isset($config['dump']['dump_binary_path'])) {
-                $this->error('MySQL dump binary path not configured in config/database.php');
-                return Command::FAILURE;
-            }
-
             // Create backup directory if it doesn't exist
-            $backupDir = storage_path('app/private/backups');
+            $backupDir = storage_path('app/backups');
             if (!File::exists($backupDir)) {
                 File::makeDirectory($backupDir, 0755, true);
             }
@@ -57,70 +48,21 @@ class SimpleBackupDatabase extends Command
                 File::makeDirectory($tempDir, 0755, true);
             }
 
+            // Get database configuration
+            $config = config('database.connections.' . config('database.default'));
+
             // Set filename
             $customFilename = $this->option('filename');
             $timestamp = Carbon::now()->format('Y-m-d-H-i-s');
-            $filename = $customFilename ?: "db-backup-{$timestamp}";
+            $filename = $customFilename ?: "php-backup-{$timestamp}";
 
             // SQL file path
             $sqlFile = "{$tempDir}/{$config['database']}.sql";
 
-            // Create a temporary file with credentials
-            $tmpCnf = tempnam(sys_get_temp_dir(), 'mysql');
-            file_put_contents($tmpCnf, "[client]\nuser = \"{$config['username']}\"\npassword = \"{$config['password']}\"\nhost = \"{$config['host']}\"\nport = \"{$config['port']}\"\n");
+            $this->info('Generating database dump using PHP...');
 
-            // Check if mysqldump is available
-            $mysqldumpPath = $config['dump']['dump_binary_path'] ?? '';
-            $mysqldumpCommand = $mysqldumpPath . 'mysqldump';
-
-            // Test if mysqldump is available
-            exec('where mysqldump 2>nul', $testOutput, $testReturn);
-            $mysqldumpAvailable = ($testReturn === 0) || file_exists($mysqldumpCommand) || file_exists($mysqldumpCommand . '.exe');
-
-            if (!$mysqldumpAvailable) {
-                $this->warn('mysqldump not available. Falling back to PHP backup method...');
-
-                // Clean up temp file
-                unlink($tmpCnf);
-
-                // Call PHP backup instead
-                $this->call('app:php-backup-database', [
-                    '--filename' => $this->option('filename') ?: 'simple-backup-' . Carbon::now()->format('Y-m-d-H-i-s')
-                ]);
-
-                return Command::SUCCESS;
-            }
-
-            // Build command using the credentials file instead of command line parameters
-            $dumpCommand = sprintf(
-                '"%s" --defaults-extra-file="%s" "%s" > "%s"',
-                $mysqldumpCommand,
-                $tmpCnf,
-                $config['database'],
-                $sqlFile
-            );
-
-            $this->info('Dumping database using mysqldump...');
-
-            // Execute mysqldump command
-            $returnVar = null;
-            $output = [];
-            exec($dumpCommand, $output, $returnVar);
-
-            // Remove temporary credentials file
-            unlink($tmpCnf);
-
-            if ($returnVar !== 0) {
-                $this->error('Database dump failed. Error code: ' . $returnVar);
-                $this->warn('Falling back to PHP backup method...');
-
-                // Call PHP backup instead
-                $this->call('app:php-backup-database', [
-                    '--filename' => $this->option('filename') ?: 'simple-backup-' . Carbon::now()->format('Y-m-d-H-i-s')
-                ]);
-
-                return Command::SUCCESS;
-            }
+            // Generate SQL dump using PHP
+            $this->generateSqlDump($config, $sqlFile);
 
             $this->info('Database dumped successfully.');
 
@@ -139,16 +81,16 @@ class SimpleBackupDatabase extends Command
             // Add SQL file to ZIP
             $zip->addFile($sqlFile, basename($sqlFile));
 
-            // Set compression method to STORE (no compression) for Windows compatibility
+            // Set compression method to STORE (no compression) for compatibility
             $zip->setCompressionName(basename($sqlFile), ZipArchive::CM_STORE, 0);
 
             // Add README file with backup info
-            $readmeContent = "DATABASE BACKUP\n\n";
+            $readmeContent = "PHP DATABASE BACKUP\n\n";
             $readmeContent .= "Created: " . Carbon::now()->format('Y-m-d H:i:s') . "\n";
-            $readmeContent .= "Database: " . $config['database'] . "\n\n";
-            $readmeContent .= "This is an unencrypted database backup.\n";
-            $readmeContent .= "To restore this backup, use the command:\n";
-            $readmeContent .= "php artisan app:restore-database --backup=" . basename($zipFile) . "\n";
+            $readmeContent .= "Database: " . $config['database'] . "\n";
+            $readmeContent .= "Method: Pure PHP (no mysqldump)\n\n";
+            $readmeContent .= "This backup was created using PHP database queries.\n";
+            $readmeContent .= "To restore, import the SQL file into your database.\n";
 
             $readmeFile = "{$tempDir}/README.txt";
             File::put($readmeFile, $readmeContent);
@@ -170,17 +112,79 @@ class SimpleBackupDatabase extends Command
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $this->error('Backup failed: ' . $e->getMessage());
-
+            
             // Send email notification for failed backup
             $this->sendEmailNotification(false, '', $e->getMessage());
-
+            
             return Command::FAILURE;
         }
     }
 
     /**
+     * Generate SQL dump using PHP database queries
+     * 
+     * @param array $config
+     * @param string $sqlFile
+     * @return void
+     */
+    protected function generateSqlDump(array $config, string $sqlFile): void
+    {
+        $sql = "-- PHP Database Backup\n";
+        $sql .= "-- Generated on: " . Carbon::now()->format('Y-m-d H:i:s') . "\n";
+        $sql .= "-- Database: {$config['database']}\n\n";
+        $sql .= "SET FOREIGN_KEY_CHECKS=0;\n";
+        $sql .= "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\n";
+        $sql .= "SET AUTOCOMMIT = 0;\n";
+        $sql .= "START TRANSACTION;\n\n";
+
+        // Get all tables
+        $tables = DB::select('SHOW TABLES');
+        $tableKey = 'Tables_in_' . $config['database'];
+
+        foreach ($tables as $table) {
+            $tableName = $table->$tableKey;
+            $this->info("Processing table: {$tableName}");
+
+            // Get table structure
+            $createTable = DB::select("SHOW CREATE TABLE `{$tableName}`")[0];
+            $sql .= "-- Table structure for table `{$tableName}`\n";
+            $sql .= "DROP TABLE IF EXISTS `{$tableName}`;\n";
+            $sql .= $createTable->{'Create Table'} . ";\n\n";
+
+            // Get table data
+            $rows = DB::table($tableName)->get();
+            
+            if ($rows->count() > 0) {
+                $sql .= "-- Dumping data for table `{$tableName}`\n";
+                $sql .= "INSERT INTO `{$tableName}` VALUES\n";
+
+                $values = [];
+                foreach ($rows as $row) {
+                    $rowData = [];
+                    foreach ($row as $value) {
+                        if (is_null($value)) {
+                            $rowData[] = 'NULL';
+                        } else {
+                            $rowData[] = "'" . addslashes($value) . "'";
+                        }
+                    }
+                    $values[] = '(' . implode(',', $rowData) . ')';
+                }
+                
+                $sql .= implode(",\n", $values) . ";\n\n";
+            }
+        }
+
+        $sql .= "SET FOREIGN_KEY_CHECKS=1;\n";
+        $sql .= "COMMIT;\n";
+
+        // Write to file
+        File::put($sqlFile, $sql);
+    }
+
+    /**
      * Send email notification about backup status
-     *
+     * 
      * @param bool $success
      * @param string $backupFile
      * @param string $errorMessage
@@ -196,18 +200,20 @@ class SimpleBackupDatabase extends Command
         }
 
         $subject = $success ?
-            'Database Backup Completed Successfully' :
-            'Database Backup Failed';
+            'PHP Database Backup Completed Successfully' :
+            'PHP Database Backup Failed';
 
         // Ensure we use Manila timezone for the timestamp
         $timestamp = Carbon::now()->setTimezone('Asia/Manila')->format('Y-m-d H:i:s');
 
         if ($success) {
-            $content = "A simple database backup was completed successfully at " . $timestamp . " (Manila time).\n\n";
-            $content .= "Backup file: " . basename($backupFile) . "\n\n";
+            $content = "A PHP database backup was completed successfully at " . $timestamp . " (Manila time).\n\n";
+            $content .= "Backup file: " . basename($backupFile) . "\n";
+            $content .= "Method: Pure PHP (no mysqldump required)\n\n";
+            $content .= "This backup was created using PHP database queries and works on any system.\n\n";
             $content .= "This is an automated notification from your HOMMSS application.";
         } else {
-            $content = "A simple database backup failed at " . $timestamp . " (Manila time).\n\n";
+            $content = "A PHP database backup failed at " . $timestamp . " (Manila time).\n\n";
             $content .= "Error: " . $errorMessage . "\n\n";
             $content .= "Please check the system and resolve the issue.\n\n";
             $content .= "This is an automated notification from your HOMMSS application.";

@@ -171,6 +171,16 @@
                         @enderror
                     </div>
 
+                    <!-- Turnstile CAPTCHA -->
+                    @if(config('services.turnstile.site_key'))
+                    <div class="mb-3">
+                        <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+                        @error('cf-turnstile-response')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    @endif
+
                     <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
                 </form>
             </div>
@@ -307,6 +317,11 @@ textarea {
 @endpush
 
 @push('scripts')
+<!-- Turnstile Script -->
+@if(config('services.turnstile.site_key'))
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+@endif
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Enhanced form validation and UX

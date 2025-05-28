@@ -1,0 +1,465 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+
+class GenerateSqlInjectionTestsCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'security:generate-sql-tests {--output=tests/sql-injection-tests.html}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Generate HTML-based SQL injection testing interface';
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $outputPath = $this->option('output');
+        
+        $this->info('🛡️  Generating SQL Injection Testing Interface...');
+        
+        $html = $this->generateTestingInterface();
+        
+        // Ensure directory exists
+        $directory = dirname($outputPath);
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
+        }
+        
+        File::put($outputPath, $html);
+        
+        $this->info("✅ SQL Injection testing interface generated: {$outputPath}");
+        $this->info("🌐 Open this file in your browser to test your application");
+        $this->newLine();
+        $this->info("📋 Instructions:");
+        $this->line("1. Open {$outputPath} in your web browser");
+        $this->line("2. Update the target URL to https://hommss.website");
+        $this->line("3. Run the automated tests");
+        $this->line("4. Review the results for any vulnerabilities");
+    }
+
+    /**
+     * Generate the HTML testing interface
+     */
+    protected function generateTestingInterface()
+    {
+        return '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ HOMMSS SQL Injection Security Tester</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #dc3545;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .danger-btn {
+            background-color: #dc3545;
+        }
+        .danger-btn:hover {
+            background-color: #c82333;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; border: 1px solid #bee5eb; }
+        .payload-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .payload-item {
+            padding: 5px;
+            margin: 2px 0;
+            background-color: white;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stat-box {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 100px;
+        }
+        .stat-success { background-color: #d4edda; }
+        .stat-warning { background-color: #fff3cd; }
+        .stat-danger { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ HOMMSS SQL Injection Security Tester</h1>
+            <p>Test your application against SQL injection attacks</p>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ WARNING:</strong> Only use this tool on your own applications or with explicit permission. 
+            Unauthorized testing is illegal and unethical.
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Target Configuration</h3>
+            <label>Target URL:</label>
+            <input type="text" id="targetUrl" value="https://hommss.website" placeholder="https://your-domain.com">
+            
+            <label>Test Endpoints:</label>
+            <select id="testEndpoint">
+                <option value="/search">Search Endpoint (/search)</option>
+                <option value="/login">Login Form (/login)</option>
+                <option value="/contact">Contact Form (/contact)</option>
+                <option value="/register">Registration (/register)</option>
+            </select>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 SQL Injection Payloads</h3>
+            <div class="payload-list" id="payloadList">
+                <!-- Payloads will be loaded here -->
+            </div>
+            <button onclick="loadPayloads()">Load Test Payloads</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 Automated Testing</h3>
+            <button onclick="runAllTests()" class="danger-btn">Run All SQL Injection Tests</button>
+            <button onclick="runSafeTests()">Run Safe Tests Only</button>
+            <button onclick="testSinglePayload()">Test Single Payload</button>
+            
+            <div class="stats" id="testStats" style="display: none;">
+                <div class="stat-box stat-success">
+                    <h4 id="passedCount">0</h4>
+                    <p>Tests Passed</p>
+                </div>
+                <div class="stat-box stat-warning">
+                    <h4 id="warningCount">0</h4>
+                    <p>Warnings</p>
+                </div>
+                <div class="stat-box stat-danger">
+                    <h4 id="failedCount">0</h4>
+                    <p>Potential Issues</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div id="testResults" class="results info">
+                Click "Run Tests" to start security testing...
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Manual Testing</h3>
+            <label>Custom Payload:</label>
+            <textarea id="customPayload" rows="3" placeholder="Enter your custom SQL injection payload here..."></textarea>
+            <button onclick="testCustomPayload()">Test Custom Payload</button>
+        </div>
+    </div>
+
+    <script>
+        const sqlPayloads = [
+            // Basic SQL injection
+            "\' OR \'1\'=\'1",
+            "\' OR 1=1--",
+            "\' OR 1=1#",
+            "admin\'--",
+            "\' or 1=1#",
+            "\') or (\'1\'=\'1--",
+            
+            // Union-based
+            "\' UNION SELECT 1,2,3--",
+            "\' UNION SELECT NULL,NULL,NULL--",
+            
+            // Boolean-based blind
+            "\' AND 1=1--",
+            "\' AND 1=2--",
+            
+            // Time-based blind
+            "\'; WAITFOR DELAY \'00:00:05\'--",
+            "\' AND (SELECT SLEEP(5))--",
+            
+            // Error-based
+            "\' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT version()), 0x7e))--",
+            
+            // Stacked queries
+            "\'; DROP TABLE users--",
+            "\'; INSERT INTO users VALUES(1,\'hacker\',\'hacker@evil.com\')--",
+        ];
+
+        let testStats = { passed: 0, warnings: 0, failed: 0 };
+
+        function loadPayloads() {
+            const payloadList = document.getElementById("payloadList");
+            payloadList.innerHTML = "";
+            
+            sqlPayloads.forEach((payload, index) => {
+                const div = document.createElement("div");
+                div.className = "payload-item";
+                div.textContent = `${index + 1}. ${payload}`;
+                payloadList.appendChild(div);
+            });
+            
+            updateResults("✅ Loaded " + sqlPayloads.length + " SQL injection test payloads", "success");
+        }
+
+        async function runAllTests() {
+            resetStats();
+            updateResults("🚀 Starting comprehensive SQL injection tests...\\n", "info");
+            
+            const targetUrl = document.getElementById("targetUrl").value;
+            const endpoint = document.getElementById("testEndpoint").value;
+            
+            for (let i = 0; i < sqlPayloads.length; i++) {
+                const payload = sqlPayloads[i];
+                updateResults(`\\n🧪 Testing payload ${i + 1}/${sqlPayloads.length}: ${payload.substring(0, 30)}...`, "info");
+                
+                try {
+                    const result = await testPayload(targetUrl + endpoint, payload);
+                    analyzeResult(result, payload);
+                    
+                    // Add delay to avoid overwhelming the server
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                } catch (error) {
+                    updateResults(`❌ Error testing payload: ${error.message}`, "error");
+                    testStats.failed++;
+                }
+            }
+            
+            updateResults(`\\n\\n📊 Testing completed!\\nPassed: ${testStats.passed}\\nWarnings: ${testStats.warnings}\\nFailed: ${testStats.failed}`, "info");
+            updateStatsDisplay();
+        }
+
+        async function runSafeTests() {
+            resetStats();
+            updateResults("🛡️ Running safe SQL injection tests...\\n", "info");
+            
+            const safePayloads = sqlPayloads.slice(0, 5); // Only test first 5 payloads
+            const targetUrl = document.getElementById("targetUrl").value;
+            const endpoint = document.getElementById("testEndpoint").value;
+            
+            for (const payload of safePayloads) {
+                try {
+                    const result = await testPayload(targetUrl + endpoint, payload);
+                    analyzeResult(result, payload);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                } catch (error) {
+                    updateResults(`❌ Error: ${error.message}`, "error");
+                }
+            }
+            
+            updateStatsDisplay();
+        }
+
+        async function testSinglePayload() {
+            const payload = sqlPayloads[0]; // Test first payload
+            const targetUrl = document.getElementById("targetUrl").value;
+            const endpoint = document.getElementById("testEndpoint").value;
+            
+            updateResults(`🧪 Testing single payload: ${payload}\\n`, "info");
+            
+            try {
+                const result = await testPayload(targetUrl + endpoint, payload);
+                analyzeResult(result, payload);
+            } catch (error) {
+                updateResults(`❌ Error: ${error.message}`, "error");
+            }
+        }
+
+        async function testCustomPayload() {
+            const payload = document.getElementById("customPayload").value;
+            if (!payload.trim()) {
+                updateResults("❌ Please enter a custom payload", "error");
+                return;
+            }
+            
+            const targetUrl = document.getElementById("targetUrl").value;
+            const endpoint = document.getElementById("testEndpoint").value;
+            
+            updateResults(`🧪 Testing custom payload: ${payload}\\n`, "info");
+            
+            try {
+                const result = await testPayload(targetUrl + endpoint, payload);
+                analyzeResult(result, payload);
+            } catch (error) {
+                updateResults(`❌ Error: ${error.message}`, "error");
+            }
+        }
+
+        async function testPayload(url, payload) {
+            const endpoint = document.getElementById("testEndpoint").value;
+            
+            let formData = new FormData();
+            
+            // Configure payload based on endpoint
+            if (endpoint === "/search") {
+                formData.append("query", payload);
+            } else if (endpoint === "/login") {
+                formData.append("email", payload);
+                formData.append("password", "testpassword");
+            } else if (endpoint === "/contact") {
+                formData.append("name", payload);
+                formData.append("email", "test@example.com");
+                formData.append("subject", "general");
+                formData.append("message", "Test message");
+            } else if (endpoint === "/register") {
+                formData.append("name", payload);
+                formData.append("email", "test@example.com");
+                formData.append("password", "TestPassword123!");
+                formData.append("password_confirmation", "TestPassword123!");
+            }
+            
+            const response = await fetch(url, {
+                method: "POST",
+                body: formData,
+                mode: "cors"
+            });
+            
+            return {
+                status: response.status,
+                statusText: response.statusText,
+                body: await response.text()
+            };
+        }
+
+        function analyzeResult(result, payload) {
+            const { status, statusText, body } = result;
+            
+            // Check for SQL error messages
+            const sqlErrors = [
+                "mysql_fetch_array", "ORA-", "Microsoft OLE DB", "ODBC SQL Server Driver",
+                "SQLServer JDBC Driver", "PostgreSQL query failed", "Warning: mysql_",
+                "valid MySQL result", "MySqlClient.", "SQL syntax", "mysql_num_rows",
+                "mysql_fetch_assoc", "mysql_fetch_row", "OLE DB", "SQLSTATE"
+            ];
+            
+            const hasSqlError = sqlErrors.some(error => 
+                body.toLowerCase().includes(error.toLowerCase())
+            );
+            
+            if (hasSqlError) {
+                updateResults(`🚨 POTENTIAL VULNERABILITY: SQL error detected!`, "error");
+                testStats.failed++;
+            } else if (status === 422 || status === 400) {
+                updateResults(`✅ PROTECTED: Validation error (${status}) - payload blocked`, "success");
+                testStats.passed++;
+            } else if (status === 500) {
+                updateResults(`⚠️ WARNING: Server error (${status}) - needs investigation`, "error");
+                testStats.warnings++;
+            } else if (status >= 200 && status < 300) {
+                updateResults(`✅ PROTECTED: Request handled safely (${status})`, "success");
+                testStats.passed++;
+            } else {
+                updateResults(`ℹ️ INFO: Response status ${status} - ${statusText}`, "info");
+                testStats.warnings++;
+            }
+        }
+
+        function updateResults(message, type) {
+            const resultsDiv = document.getElementById("testResults");
+            resultsDiv.textContent += message + "\\n";
+            resultsDiv.className = `results ${type}`;
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function resetStats() {
+            testStats = { passed: 0, warnings: 0, failed: 0 };
+            document.getElementById("testResults").textContent = "";
+            document.getElementById("testStats").style.display = "none";
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById("passedCount").textContent = testStats.passed;
+            document.getElementById("warningCount").textContent = testStats.warnings;
+            document.getElementById("failedCount").textContent = testStats.failed;
+            document.getElementById("testStats").style.display = "flex";
+        }
+
+        // Load payloads on page load
+        window.onload = function() {
+            loadPayloads();
+        };
+    </script>
+</body>
+</html>';
+    }
+}

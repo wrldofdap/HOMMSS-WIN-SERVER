@@ -8,6 +8,16 @@
 
 A **production-ready e-commerce platform** built with Laravel, featuring **enterprise-grade security**, **military-level encryption**, and **professional backup systems** for selling home and construction products.
 
+## 🎓 **PBL Presentation Ready**
+
+**📋 For PBL Presentation:** All presentation guides are in `docs/presentation-guides/`
+- **[🎯 Start Here: Presentation Index](docs/presentation-guides/00-PRESENTATION-INDEX.md)** - Master guide
+- **[📖 Complete Presentation Guide](docs/presentation-guides/PBL-PRESENTATION-GUIDE.md)** - 15-20 min guide
+- **[⚡ Quick Demo Commands](docs/presentation-guides/QUICK-DEMO-COMMANDS.md)** - Essential commands
+- **[✅ Presentation Checklist](docs/presentation-guides/PRESENTATION-CHECKLIST.md)** - Step-by-step checklist
+
+**Demo Accounts:** admin@demo.com / demo1234 • customer@demo.com / demo1234
+
 ---
 
 ## 🎯 **PBL PRESENTATION SCRIPT**

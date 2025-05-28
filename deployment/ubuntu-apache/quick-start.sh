@@ -16,12 +16,12 @@ NC='\033[0m'
 # ASCII Art Banner
 echo -e "${PURPLE}"
 cat << "EOF"
- _   _  ___  __  __ __  __ _____ _____ 
+ _   _  ___  __  __ __  __ _____ _____
 | | | |/ _ \|  \/  |  \/  /  ___/  ___|
-| |_| | | | | .  . | .  . \ `--.\ `--. 
+| |_| | | | | .  . | .  . \ `--.\ `--.
 |  _  | | | | |\/| | |\/| |`--. \`--. \
 | | | | |_| | |  | | |  | /\__/ /\__/ /
-\_| |_/\___/\_|  |_\_|  |_\____/\____/ 
+\_| |_/\___/\_|  |_\_|  |_\____/\____/
 
 E-Commerce Platform - Ubuntu Apache Deployment
 EOF
@@ -116,12 +116,12 @@ cat > /etc/apache2/sites-available/hommss.conf << EOF
 <VirtualHost *:80>
     ServerName $DOMAIN_NAME
     ServerAlias www.$DOMAIN_NAME
-    DocumentRoot /var/www/hommss/public
-    
+    DocumentRoot /var/www/html/HOMMS-PHP/public
+
     RewriteEngine On
     RewriteCond %{HTTPS} off
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-    
+
     ErrorLog \${APACHE_LOG_DIR}/hommss_error.log
     CustomLog \${APACHE_LOG_DIR}/hommss_access.log combined
 </VirtualHost>
@@ -129,27 +129,27 @@ cat > /etc/apache2/sites-available/hommss.conf << EOF
 <VirtualHost *:443>
     ServerName $DOMAIN_NAME
     ServerAlias www.$DOMAIN_NAME
-    DocumentRoot /var/www/hommss/public
-    
+    DocumentRoot /var/www/html/HOMMS-PHP/public
+
     SSLEngine on
     SSLCertificateFile /etc/ssl/certs/cloudflare-origin.pem
     SSLCertificateKeyFile /etc/ssl/private/cloudflare-origin.key
-    
+
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options DENY
     Header always set X-XSS-Protection "1; mode=block"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    
-    <Directory /var/www/hommss/public>
+
+    <Directory /var/www/html/HOMMS-PHP/public>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
-    
+
     <FilesMatch \.php$>
         SetHandler "proxy:unix:/var/run/php/php8.2-fpm.sock|fcgi://localhost"
     </FilesMatch>
-    
+
     ErrorLog \${APACHE_LOG_DIR}/hommss_ssl_error.log
     CustomLog \${APACHE_LOG_DIR}/hommss_ssl_access.log combined
 </VirtualHost>

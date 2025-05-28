@@ -187,20 +187,20 @@ print_success "ModSecurity configured"
 print_status "Setting secure file permissions..."
 
 # Set proper ownership
-chown -R www-data:www-data /var/www/hommss
-find /var/www/hommss -type d -exec chmod 755 {} \;
-find /var/www/hommss -type f -exec chmod 644 {} \;
+chown -R www-data:www-data /var/www/html/HOMMS-PHP
+find /var/www/html/HOMMS-PHP -type d -exec chmod 755 {} \;
+find /var/www/html/HOMMS-PHP -type f -exec chmod 644 {} \;
 
 # Secure sensitive directories
-chmod 750 /var/www/hommss/storage
-chmod 750 /var/www/hommss/bootstrap/cache
-chmod 600 /var/www/hommss/.env
+chmod 750 /var/www/html/HOMMS-PHP/storage
+chmod 750 /var/www/html/HOMMS-PHP/bootstrap/cache
+chmod 600 /var/www/html/HOMMS-PHP/.env
 
 # Make sure uploads directory is secure
-if [ -d "/var/www/hommss/public/uploads" ]; then
-    find /var/www/hommss/public/uploads -name "*.php" -delete
-    echo "Options -ExecCGI" > /var/www/hommss/public/uploads/.htaccess
-    echo "AddHandler cgi-script .php .pl .py .jsp .asp .sh .cgi" >> /var/www/hommss/public/uploads/.htaccess
+if [ -d "/var/www/html/HOMMS-PHP/public/uploads" ]; then
+    find /var/www/html/HOMMS-PHP/public/uploads -name "*.php" -delete
+    echo "Options -ExecCGI" > /var/www/html/HOMMS-PHP/public/uploads/.htaccess
+    echo "AddHandler cgi-script .php .pl .py .jsp .asp .sh .cgi" >> /var/www/html/HOMMS-PHP/public/uploads/.htaccess
 fi
 
 print_success "File permissions secured"

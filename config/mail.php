@@ -43,10 +43,37 @@ return [
             'url' => env('MAIL_URL'),
             'host' => env('MAIL_HOST', '127.0.0.1'),
             'port' => env('MAIL_PORT', 2525),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
+            'timeout' => env('MAIL_TIMEOUT', 60),
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+
+            // TLS Security Options
+            'verify_peer' => env('MAIL_VERIFY_PEER', true),
+            'verify_peer_name' => env('MAIL_VERIFY_PEER_NAME', true),
+            'allow_self_signed' => env('MAIL_ALLOW_SELF_SIGNED', false),
+
+            // Stream context options for enhanced TLS security
+            'stream' => [
+                'ssl' => [
+                    'verify_peer' => env('MAIL_VERIFY_PEER', true),
+                    'verify_peer_name' => env('MAIL_VERIFY_PEER_NAME', true),
+                    'allow_self_signed' => env('MAIL_ALLOW_SELF_SIGNED', false),
+                    'cafile' => env('MAIL_CAFILE'),
+                    'capath' => env('MAIL_CAPATH'),
+                    'local_cert' => env('MAIL_LOCAL_CERT'),
+                    'local_pk' => env('MAIL_LOCAL_PK'),
+                    'passphrase' => env('MAIL_PASSPHRASE'),
+                    'ciphers' => env('MAIL_CIPHERS', 'HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA'),
+                    'peer_fingerprint' => env('MAIL_PEER_FINGERPRINT'),
+                    'capture_peer_cert' => env('MAIL_CAPTURE_PEER_CERT', false),
+                    'capture_peer_cert_chain' => env('MAIL_CAPTURE_PEER_CERT_CHAIN', false),
+                    'SNI_enabled' => env('MAIL_SNI_ENABLED', true),
+                    'disable_compression' => env('MAIL_DISABLE_COMPRESSION', true),
+                    'peer_name' => env('MAIL_PEER_NAME', env('MAIL_HOST')),
+                ],
+            ],
         ],
 
         'ses' => [
